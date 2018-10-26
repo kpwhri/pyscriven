@@ -48,6 +48,7 @@ class Image:
 
     @property
     def image(self):
+        self._image.seek(0)
         return self._image.read()
 
     @classmethod
@@ -150,11 +151,12 @@ class RestWriter:
         self.add_lines(sentences)
 
     def write_image(self, image: Image):
-        with open(os.path.join(self.parent, image.filename), 'wb') as out:
+        path = os.path.join(self.parent, image.filename)
+        with open(path, 'wb') as out:
             out.write(image.image)
         lines = []
         if image.title or image.caption:
-            lines.append('.. figure:: {}'.format(image.image))
+            lines.append('.. figure:: {}'.format(path))
             lines.append('    :align: center')
             if image.title:
                 lines.append('')
