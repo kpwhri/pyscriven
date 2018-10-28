@@ -110,7 +110,8 @@ class RestWriter:
     def write_all(self, data):
         buffer = []
         prev = None
-        for i, label, item, *kwargs in enumerate(data):
+        has_subtitle = False
+        for i, (label, item, *kwargs) in enumerate(data):
             if kwargs:
                 kwargs = kwargs[0]  # get dict
             else:
@@ -122,6 +123,19 @@ class RestWriter:
                     continue
                 else:
                     self.write_title('Document Title', **kwargs)
+                    if label == 'subtitle':
+                        self.write_title(item, level=2)
+                        continue
+                    else:
+                        self.write_title('Subtitle', level=2)
+                    has_subtitle = True
+            elif i == 1 and not has_subtitle:
+                if label == 'subtitle':
+                    self.write_title(item, level=2)
+                    continue
+                else:
+                    self.write_title('Subtitle', level=2)
+
             if prev and prev != label:
                 if prev == 'sentence':
                     self.write_sentences_to_paragraph(buffer)
@@ -145,9 +159,8 @@ class RestWriter:
                 self.write_sentences_to_paragraph(buffer)
 
     def write_title(self, title, level=1):
-        separator = self.HEADINGS[1] * len(title)
+        separator = self.HEADINGS[level] * len(title)
         self.add_lines([separator, title, separator])
-
 
     def write_header(self, header, level=1):
         separator = self._next_heading(level) * len(header)
