@@ -78,7 +78,7 @@ class RestWriter:
 
     def __init__(self, fp, mode='w'):
         self.fp = fp
-        self.parent = os.path.dirname(self.fp)
+        self.parent = os.path.dirname(os.path.abspath(self.fp))
         os.makedirs(self.parent, exist_ok=True)
         self._current_heading = 0
         self.mode = mode
