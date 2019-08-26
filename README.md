@@ -39,10 +39,42 @@ with RestWriter(fp=path) as out:
     out.write_all(rst_list)
 ```
 
+The above code will generate the following `.rst`  document:
+
+```text
+
+==============
+Document Title
+==============
+
+--------
+Subtitle
+--------
+
+Example Table
+=============
+
+.. table:: 
+
+    +--------+---------+
+    |  Term  |Frequency|
+    +========+=========+
+    |python  |        3|
+    +--------+---------+
+    |anaconda|        2|
+    +--------+---------+
+    |boa     |        5|
+    +--------+---------+
+
+``` 
+
 ### Converting to Other Formats
+
+Specify a format that pandoc specifies it can generate from a `.rst` file. I also like providing a `--table-of-contents` when appropriate.
+
 ```python
 import pypandoc
-pypandoc.convert_file(path, new_format, outputfile=outpath, 
+pypandoc.convert_file(path, 'docx', outputfile=outpath, 
                       extra_args=['--table-of-contents'])
 ```
 
