@@ -4,8 +4,7 @@ import os
 from io import BytesIO
 import matplotlib.pyplot as plt
 import pytablewriter
-from cronkd.util.os import make_safe_title
-from cronkd.util.random import generate_random_string
+from pyscriven.utils import make_safe_title, generate_random_string
 
 
 class Table:
